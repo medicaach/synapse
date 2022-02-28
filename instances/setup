@@ -1,0 +1,15 @@
+#!/bin/bash
+
+sudo apt -y install build-essential python3-dev libffi-dev \
+	python3-pip python3-setuptools sqlite3 \
+	libssl-dev virtualenv libjpeg-dev libxslt1-dev \
+	libpq5 postgresql-client python3-venv libpq-dev
+
+python3 -m venv ./env
+source ./env/bin/activate
+pip install wheel
+pip install tox
+pip install ruamel.yaml
+
+cd ..
+pip install -e ".[all,dev]"
