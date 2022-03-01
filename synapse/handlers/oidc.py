@@ -554,6 +554,7 @@ class OidcProvider:
             "grant_type": "authorization_code",
             "code": code,
             "redirect_uri": self._callback_url,
+            "client_id": self._client_auth.client_id,
         }
         body = urlencode(args, True)
 
