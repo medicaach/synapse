@@ -77,8 +77,8 @@ while True:
 		break
 	else:
 		pass
-
-os.mkdir(media_store_path)
+if not os.path.exists(media_store_path):
+	os.makedirs(media_store_path)
 #################################
 
 yaml = YAML()
@@ -93,6 +93,16 @@ config['media_store_path'] = media_store_path
 
 with open(servername + "/homeserver.yaml", 'w') as file:
 	yaml.dump(config,file)
+
+yaml = YAML()
+config = ''
+with open(servername + "/" + servername + ".log.config", 'r') as file:
+        config = yaml.load(file)
+
+config['handlers']['file']['filename'] = "./homeserver.log"
+
+with open(servername + "/" + servername + ".log.config", 'w') as file:
+        yaml.dump(config,file)
 
 ######################################################################
 # Create service
@@ -125,7 +135,7 @@ runscript = """\
 #!/bin/env bash
 
 cd $dir$
-source ../../env/bin/activate
+source ../env/bin/activate
 
 python -m synapse.app.homeserver --config-path homeserver.yaml
 
